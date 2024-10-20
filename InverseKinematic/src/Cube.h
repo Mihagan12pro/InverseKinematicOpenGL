@@ -33,4 +33,5 @@ struct Cube {
 	void Translate(glm::vec3 vec);
 	void Rotate(glm::vec3 euler);
 	void Rotate(float radian, glm::vec3 axis);
+	void SetCenter(glm::vec3 newCenter);
 };

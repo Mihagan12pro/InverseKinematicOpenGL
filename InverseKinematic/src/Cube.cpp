@@ -153,6 +153,10 @@ glm::vec3 Cube::GetCenter()
 
 	return center;
 }
+void Cube::SetCenter(glm::vec3 newCenter)
+{
+
+}
 
 void Cube::SetPos(glm::vec3 pos)
 {

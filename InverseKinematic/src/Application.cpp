@@ -21,7 +21,8 @@
 
 #include "Camera.h"
 #include "Cube.h"
-
+#include<fstream>
+using namespace std;
 GLFWwindow* window;
 int width = 640, height = 480;
 
@@ -149,7 +150,14 @@ int main(void)
 		Cube cube2(glm::vec3(2.0f, 0.0f, 0.0f), glm::vec3(2.0f, 0.2f, 0.2f), 4.0f);
 		Cube cube3(glm::vec3(4.0f, 0.0f, 0.0f), glm::vec3(2.0f, 0.2f, 0.2f), 4.0f);
 		Cube lightSrc(glm::vec3(1.0f, 3.0f, 1.0f), glm::vec3(0.3f), glm::vec4(1.0f));
-		Cube base(glm::vec3(-0.1f), glm::vec3(0.2f), 6.0f);
+
+
+
+
+		Cube base(glm::vec3(-0.1f), glm::vec3(0.2f,0.2f,0.2f), 6.0f);
+
+
+
 		Cube target(glm::vec3(5.0f, 2.0f, 0.0f), glm::vec3(0.2f), 2.0f);
 		Cube ground(glm::vec3(-5.0f, -1.0f, -5.0f), glm::vec3(10.0f, 0.1f, 10.0f), 5.0f);
 
@@ -162,7 +170,8 @@ int main(void)
 		std::vector<float> lengths{ 2,2,2 };
 
 		float currentPointPos = 0;
-		for (int i = 0; i <= lengths.size(); i++) {
+		for (int i = 0; i <= lengths.size(); i++)
+ {
 			points.push_back(glm::normalize(target.GetCenter() - glm::vec3(0.0f) * currentPointPos));
 			if (i < points.size() - 1)
 				currentPointPos += lengths[i];
@@ -170,6 +179,7 @@ int main(void)
 
 		float speed = 0.05f;
 
+		
 		/* Loop until the user closes the window */
 		while (!glfwWindowShouldClose(window))
 		{
@@ -197,10 +207,55 @@ int main(void)
 				target.Translate(glm::vec3(-speed, 0.0f, 0.0f));
 			if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 				target.Translate(glm::vec3(speed, 0.0f, 0.0f));
+
+
+
+			
 			if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS)
-				target.Translate(glm::vec3(0.0f, speed, 0.0f));
+			{
+				if (target.GetCenter().y < 3.2f)
+				{
+					target.Translate(glm::vec3(0.0f, speed, 0.0f));
+				}
+			//	if (target.GetCenter() < glm::vec3(5.1f, 3.4f, 0.1f))
+				
+	/*			ofstream fileOut;
+				fileOut.open("data.txt", ios::app);
+
+				fileOut << target.GetCenter().x << " ; " << target.GetCenter().y << " ; " << target.GetCenter().z << endl;
+				fileOut.close();*/
+			}
 			if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
-				target.Translate(glm::vec3(0.0f, -speed, 0.0f));
+			{
+				if (target.GetCenter().y > -3.15)
+					target.Translate(glm::vec3(0.0f, -speed, 0.0f));
+			}
+			
+
+
+
+
+
+
+			//Клавиши для вывода информации в консоль
+			//Begin
+			if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)//Показывает target.GetCenter()
+			{
+				cout<<"x = " << target.GetCenter().x<<" y = " << target.GetCenter().y<<" z = " << target.GetCenter().z << endl << endl;
+			}
+			if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)//Очстика консоли
+			{
+				system("cls");
+			}
+			if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS)//Очстика консоли
+			{
+				cout << endl;
+			}
+			//end
+
+
+
+
 
 			points = DoFabrik(glm::vec3(0.0f), target.GetCenter(), points, lengths);
 			cube1.SetLookDir(points[1] - points[0]);
